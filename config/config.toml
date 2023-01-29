@@ -1,0 +1,4 @@
+[database]
+
+DB_URL = 'sqlite+aiosqlite:///instance/database.db'
+DB_ECHO = true

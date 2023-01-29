@@ -1,0 +1,23 @@
+= Template for a webapp
+
+Tools used:
+
+* https://docs.aiohttp.org/en/stable/[Aiohttp]
+* https://www.sqlalchemy.org[SQLAlchemy]
+* https://alembic.sqlalchemy.org/en/latest/[Alembic]
+* https://aiosqlite.omnilib.dev/en/stable/[aiosqlite]
+* https://www.sqlite.org/index.html[SQLite]
+
+== Installation
+
+[source, bash]
+----
+$ # git clone && cd
+$ make venv
+$ source .venv/bin/activate
+$ alembic upgrade ec5ddda825ce
+$ ./scripts/run
+$ open http://127.0.0.1:8000
+----
+
+See link:docs/manual.adoc[Manual] for documentation.

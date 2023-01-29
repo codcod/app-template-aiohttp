@@ -1,0 +1,59 @@
+= Development
+
+== Adding new features
+
+Git clone the repository, `cd` into it and then:
+
+[source, bash]
+----
+$ make venv-devel   # one time only
+$ source .venv/bin/activate
+$ alembic upgrade head
+----
+
+== Tips
+
+Clear Github credentials in macOS:
+
+[source, bash]
+----
+$ git credential-osxkeychain erase
+host=github.com
+protocol=https
+[Return]
+----
+
+Set Github's local name and email and list options:
+
+[source, bash]
+----
+$ git config --local user.name "codcod"
+$ git config --local user.email "..."
+$ git config --local -l
+----
+
+== History
+
+Key steps taken while the repository was created.
+
+Push an existing repository from the command line:
+
+[source, bash]
+----
+$ git init
+$ git add .
+$ git commit -m "Initial commit"
+$ git branch -M main
+$ git remote add origin https://github.com/codcod/app-template-aiohttp.git
+$ git push -u origin main
+----
+
+Create database migrations:
+
+[source, bash]
+----
+$ alembic init --template async migrations  # alembic.ini:  sqlalchemy.url = sqlite+aiosqlite:///database.db
+$ alembic revision -m "create schema"
+$ alembic upgrade head
+$ alembic downgrade base  # alembic downgrade -1
+----
