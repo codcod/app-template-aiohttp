@@ -1,8 +1,8 @@
 import json
 from datetime import datetime as dt
 from functools import partial
-from sqlalchemy import Row
 
+from sqlalchemy import Row
 
 __all__ = ['dumps', 'jsonify_rows']
 

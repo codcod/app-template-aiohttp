@@ -1,4 +1,4 @@
-from webapp import __version__
+from sgerbwd import __version__
 
 
 def test_version():

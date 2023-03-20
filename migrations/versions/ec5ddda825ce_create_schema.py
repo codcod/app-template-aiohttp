@@ -25,32 +25,7 @@ def upgrade() -> None:
         sa.Column('surname', sa.String(64), nullable=False),
         sqlite_autoincrement=True
     )
-    op.create_table(
-        'spots',
-        sa.Column('spot_id', sa.Integer, primary_key=True),
-        sa.Column('number', sa.String(64), unique=True),
-        sqlite_autoincrement=True
-    )
-    op.create_table(
-        'statuses',
-        sa.Column('status_id', sa.Integer, primary_key=True),
-        sa.Column('tag', sa.String(64)),
-        sa.Column('descr', sa.String(200)),
-        sqlite_autoincrement=True
-    )
-    op.create_table(
-        'assignments',
-        sa.Column('assignment_id', sa.Integer, primary_key=True),
-        sa.Column('parking_day', sa.DateTime, index=True, default=dt.utcnow),
-        
-        sa.Column('user_id', sa.Integer, sa.ForeignKey('users.user_id')),
-        sa.Column('spot_id', sa.Integer, sa.ForeignKey('spots.spot_id')),
-        sa.Column('status_id', sa.Integer, sa.ForeignKey('statuses.status_id')),
-    )
 
 
 def downgrade() -> None:
     op.drop_table('users')
-    op.drop_table('spots')
-    op.drop_table('assignments')
-    op.drop_table('statuses')
