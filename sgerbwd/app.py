@@ -27,7 +27,7 @@ async def teardown_app(app: web.Application) -> None:
 
 async def make_app() -> web.Application:
     app = web.Application()
-    app.on_startup.append(setup_app)
-    app.on_cleanup.append(teardown_app)
+    # app.on_startup.append(setup_app)
+    # app.on_cleanup.append(teardown_app)
     app.add_routes(routes)
     return app
