@@ -1,0 +1,66 @@
+= Deploy a web app with PostgreSQL in Azure
+
+In this tutorial, you'll deploy a web app to
+https://learn.microsoft.com/en-us/azure/app-service/overview#app-service-on-linux[Azure App Service]
+with the https://learn.microsoft.com/en-us/azure/postgresql/[Azure Database for PostgreSQL]
+relational database service.
+
+== Azure Portal
+
+Sign in to the https://portal.azure.com/[Azure portal]and follow these steps to
+create your Azure App Service resources.
+
+== Create App Service and PostgreSQL database
+
+Project Details
+
+Subscription: Free
+Resource Group: (new) sgerbwd-resource-group
+Region: West Europe
+
+Web App Details
+
+Name: sgerbwd-tst (.azurewebsites.net)
+Runtime stack: Python 3.11
+
+Database
+
+(all defaults)
+
+Engine: PostgreSQL - Flexible Server (recommended)
+Server name: sgerbwd-tst-server
+Database name: sgerbwd-tst-database
+
+Hosting
+
+Hosting plan: Basic
+
+> Review + create
+
+user/pass: cvktammkxi/107J0H1EQ503BJ75$
+
+> Create
+
+
+Deployment is in progress (takes up to 10 minutes)
+
+> Go to resource
+
+== Deploy code
+
+Fork the repo.
+
+Deployment Center -> Settings
+
+Source: GitHub
+
+Github
+
+Organization: codcod
+Repository: app-template-aiohttp
+Branch: main
+
+> Save
+
+> GitHub Actions
+
