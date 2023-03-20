@@ -1,5 +1,5 @@
 aiohttp
-aiosqlite
 alembic
+asyncpg
 gunicorn
-sqlalchemy[asyncio]==2.0.0
+sqlalchemy[asyncio]

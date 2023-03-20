@@ -5,8 +5,8 @@ Tools used:
 * https://docs.aiohttp.org/en/stable/[Aiohttp]
 * https://www.sqlalchemy.org[SQLAlchemy]
 * https://alembic.sqlalchemy.org/en/latest/[Alembic]
-* https://aiosqlite.omnilib.dev/en/stable/[aiosqlite]
-* https://www.sqlite.org/index.html[SQLite]
+* https://magicstack.github.io/asyncpg/current/[asyncpg]
+* https://www.postgresql.org[PostgreSQL]
 
 == Installation
 
