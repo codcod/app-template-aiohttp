@@ -5,9 +5,9 @@ Main app.
 from aiohttp import web
 
 from . import db
+from .logging import get_logger
 from .settings import load_config
 from .views import routes
-from .logging import get_logger
 
 logger = get_logger(__name__)
 

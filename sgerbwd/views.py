@@ -8,7 +8,6 @@ from . import queries
 from .json import dumps, jsonify_rows
 from .logging import get_logger
 
-
 logger = get_logger(__name__)
 
 routes = web.RouteTableDef()
