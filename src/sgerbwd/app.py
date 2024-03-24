@@ -14,9 +14,7 @@ logger = get_logger(__name__)
 
 async def setup_app(app: web.Application) -> None:
     config = load_config('config/config.toml')
-    print(f'{config=}')
     engine = await db.get_engine()
-    print(f'{engine=}')
 
     app['config'] = config
     app['engine'] = engine

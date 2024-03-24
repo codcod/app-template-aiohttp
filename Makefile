@@ -1,4 +1,6 @@
-.PHONY = venv lint test create-db run sbom clean-all
+.PHONY = venv lint test create-db run-server sbom \
+		 clean-all \
+		 start-platform stop-platform
 
 export PYTHONPATH=src/.
 
@@ -24,8 +26,14 @@ test:
 create-db:
 	rye run create-db
 
-run:
+run-server:
 	rye run server
+
+start-platform:
+	docker compose up -d
+
+stop-platform:
+	docker compose down
 
 sbom:
 	mkdir -p $(OUT_DIR)
@@ -36,5 +44,6 @@ sbom:
 		-F "project=${DT_PROJECT}" \
 		-F "bom=@$(OUT_DIR)/cyclonedx.json"
 
-clean-all:
+clean-all: stop-platform
+	( bash -c "docker image rm sgerbwd-{webapp,postgres}"; ) || true
 	rm -rf .container-data

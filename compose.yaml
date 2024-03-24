@@ -4,8 +4,8 @@ version: "3.8"
 services:
 
   postgres:
-    image: sgerbwd-postgres
-    container_name: postgres
+    image: sgerbwd/postgres
+    container_name: sgerbwd-postgres
     command: postgres -c 'max_connections=250'
     build:
       dockerfile: ./containers/postgres/Dockerfile
@@ -17,11 +17,28 @@ services:
       - POSTGRES_DB=sgerbwd
     volumes:
       - .container-data/postgres/pg_data:/var/lib/postgresql/data
-      # - ./containers/postgres/sql/create.sql:/docker-entrypoint-initdb.d/create.sql
-      # - ./containers/postgres/sql/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+      - ./containers/postgres/sql/create.sql:/docker-entrypoint-initdb.d/create.sql
+      - ./containers/postgres/sql/seed.sql:/docker-entrypoint-initdb.d/seed.sql
       # - ./containers/postgres/psql_history:/.psql_history
     networks:
       - sgerbwd
+
+  webapp:
+    image: sgerbwd/webapp
+    container_name: sgerbwd-webapp
+    build:
+      dockerfile: ./containers/webapp/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      DB_URI: postgresql+asyncpg://postgres:postgres@postgres/sgerbwd
+    ports:
+      - 8080:8080
+    networks:
+      - sgerbwd
+    volumes:
+      - .container-data/logs/:/var/log/
 
 networks:
   sgerbwd:
