@@ -1,14 +1,13 @@
 """create schema
 
 Revision ID: ec5ddda825ce
-Revises: 
+Revises:
 Create Date: 2023-01-22 15:43:12.663404
 
 """
-from alembic import op
-import sqlalchemy as sa
 
-from datetime import datetime as dt
+import sqlalchemy as sa
+from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = 'ec5ddda825ce'

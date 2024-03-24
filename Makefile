@@ -1,20 +1,40 @@
-.PHONY = venv check test venv-devel
+.PHONY = venv lint test create-db run sbom clean-all
 
-export PYTHONPATH=.
+export PYTHONPATH=src/.
+
+OUT_DIR := build
+
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
 
 venv:
-	python -m venv .venv
-	( bash -c "source .venv/bin/activate && python -m pip install --upgrade pip setuptools wheel"; )
-	( bash -c "source .venv/bin/activate && pip install -r requirements/prod.txt"; )
-	@printf "\nDone. You can now activate the virtual environment:\n  source .venv/bin/activate\n"
+	rm -rf ".venv"
+	rye sync
+	@printf "\nDone. You can now activate the virtual environment:"
+	@printf "\n  source .venv/bin/activate\n  virtualenv --upgrade-embed-wheels\n"
 
-venv-devel: venv
-	( bash -c "source .venv/bin/activate && pip install -r requirements/devel.txt"; )
-	
-
-check:
-	mypy --strict --scripts-are-modules --implicit-reexport messaging
-		#scripts/*
+lint:
+	rye lint
 
 test:
-	pytest  # configured via pyproject.toml
+	rye run pytest
+
+create-db:
+	rye run create-db
+
+run:
+	rye run server
+
+sbom:
+	mkdir -p $(OUT_DIR)
+	rye run python -m cyclonedx_py environment > build/cyclonedx.json
+	curl -X POST http://localhost:8081/api/v1/bom \
+		-H "Content-Type: multipart/form-data" \
+		-H "X-API-Key: ${DT_API_KEY}" \
+		-F "project=${DT_PROJECT}" \
+		-F "bom=@$(OUT_DIR)/cyclonedx.json"
+
+clean-all:
+	rm -rf .container-data

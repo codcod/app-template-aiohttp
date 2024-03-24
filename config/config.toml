@@ -1,4 +1,4 @@
 [database]
 
-DB_URL = 'postgresql+asyncpg://postgres:postgres@localhost/postgres'
+DB_URL = 'postgresql+asyncpg://postgres:postgres@localhost/sgerbwd'
 DB_ECHO = true

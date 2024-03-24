@@ -8,6 +8,13 @@ venv/
 *.db
 .instance/
 *.log
+.container-data
+
+# devel
+.coverage
+.pytest_cache/
+.ruff_cache/
+.env
 
 # You can get more comprehensive list with:
 # curl -s -o .gitignore -O https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore

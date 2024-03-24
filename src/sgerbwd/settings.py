@@ -4,10 +4,11 @@ Handle application settings.
 
 import os
 import pathlib
-import tomllib
 import typing as tp
 
-BASE_DIR = pathlib.Path(__file__).parent.parent
+import tomllib
+
+BASE_DIR = pathlib.Path(__file__).parent.parent.parent
 # PACKAGE_NAME = 'valet'
 
 
