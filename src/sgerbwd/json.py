@@ -30,6 +30,6 @@ def jsonify_rows(rows: list[Row]):
     return resp
 
     """
-    resp = [dict([x for x in zip(row._fields, row)]) for row in rows]
+    resp = [dict([x for x in zip(row._fields, row, strict=False)]) for row in rows]
 
     return resp

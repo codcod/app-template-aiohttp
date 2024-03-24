@@ -1,5 +1,0 @@
-aiohttp
-alembic
-asyncpg
-gunicorn
-sqlalchemy[asyncio]

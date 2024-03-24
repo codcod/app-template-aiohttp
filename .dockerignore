@@ -1,0 +1,6 @@
+.container-data
+.mypy_cache
+.git
+.venv
+docs
+tests

@@ -19,13 +19,13 @@ async def index(req: Request) -> Response:
     return web.json_response(dict(os.environ))
 
 
-@routes.get('/user/{id:\d+}')
+@routes.get(r'/users/{id:\d+}')
 async def fetch_user(req: Request) -> Response:
     id = req.match_info['id']
     engine = req.app['engine']
 
     async with engine.begin() as conn:
-        record = await queries.fetch_user(conn, id)
+        record = await queries.fetch_user(conn, int(id))
 
     return web.json_response({'row': jsonify_rows(record)}, dumps=dumps)
 

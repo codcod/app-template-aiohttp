@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-PYTHONPATH=. gunicorn sgerbwd.app:make_app -w 1 -k aiohttp.GunicornWebWorker --reload

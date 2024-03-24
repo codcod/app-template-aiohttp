@@ -1,0 +1,30 @@
+---
+version: "3.8"
+
+services:
+
+  postgres:
+    image: sgerbwd-postgres
+    container_name: postgres
+    command: postgres -c 'max_connections=250'
+    build:
+      dockerfile: ./containers/postgres/Dockerfile
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=sgerbwd
+    volumes:
+      - .container-data/postgres/pg_data:/var/lib/postgresql/data
+      # - ./containers/postgres/sql/create.sql:/docker-entrypoint-initdb.d/create.sql
+      # - ./containers/postgres/sql/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+      # - ./containers/postgres/psql_history:/.psql_history
+    networks:
+      - sgerbwd
+
+networks:
+  sgerbwd:
+    driver: bridge
+
+# vim: sw=2:et:ai
