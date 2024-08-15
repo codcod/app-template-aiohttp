@@ -45,5 +45,5 @@ sbom:
 		-F "bom=@$(OUT_DIR)/cyclonedx.json"
 
 clean-all: stop-platform
-	( bash -c "docker image rm sgerbwd-{webapp,postgres}"; ) || true
+	( bash -c "docker image rm sgerbwd/{webapp,postgres}"; ) || true
 	rm -rf .container-data

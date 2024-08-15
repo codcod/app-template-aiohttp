@@ -25,6 +25,16 @@ See the endpoints:
 * http://127.0.0.1:8000/users
 * http://127.0.0.1:8000/users/1
 
+Multiplatform builds
+---
+
+https://docs.orbstack.dev/docker/images#multiplatform
+https://docs.docker.com/build/building/multi-platform/#building-multi-platform-images
+https://docs.docker.com/build/drivers/docker-container
+
+References
+---
+
 See [docs/manual.adoc](Manual) for documentation.
 
 Sgerbwd means skeleton in Welsh.
