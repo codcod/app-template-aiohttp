@@ -2,15 +2,14 @@
 name = "sgerbwd"
 version = "0.1.0"
 description = "A template for a Python webapp"
-authors = [
-    { name = "codcod", email = "nikos@linux.com" }
-]
+authors = [{ name = "codcod", email = "nikos@linux.com" }]
 dependencies = [
     "aiohttp>=3.9.3",
     "alembic>=1.13.1",
     "asyncpg>=0.29.0",
     "gunicorn>=21.2.0",
     "sqlalchemy[asyncio]>=2.0.29",
+    "uvicorn>=0.32.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.12"
@@ -19,8 +18,7 @@ requires-python = ">= 3.12"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.rye]
-managed = true
+[tool.uv]
 dev-dependencies = [
     "mypy>=1.8.0",
     "pylint>=3.0.3",
@@ -31,26 +29,12 @@ dev-dependencies = [
     "flake8>=5.0.4",
     "pytest-coverage>=0.0",
     "cyclonedx-bom>=4.1.1",
+    "ruff>=0.7.1",
 ]
 
-[tool.rye.scripts]
-mylint = { chain = [
-    "mylint:pylint",
-]}
-"mylint:pylint" = "pylint src/"
-"mylint:radon" = "radon cc src/ -a -nc"  # to run it remove log_* entries from [tool.pytest.ini_options]
-
-create-db = { chain = [
-    "db:schema",
-    "db:seed",
-]}
-"db:schema" = "alembic upgrade ec5"
-"db:seed" = "alembic upgrade d26"
-
-"server" = "gunicorn sgerbwd.app:make_app -w 1 -k aiohttp.GunicornWebWorker --reload"
-
-[tool.hatch.metadata]
-allow-direct-references = true
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
 
 [tool.isort]
 profile = "black"
@@ -84,20 +68,13 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 quote-style = "single"
 
 [tool.pydocstyle]
-ignore = [
-    "D105",
-    "D107",
-    "D203",
-    "D213",
-]
+ignore = ["D105", "D107", "D203", "D213"]
 
 [tool.pytest.ini_options]
 # https://docs.pytest.org/en/latest/reference/customize.html
 minversion = "6.0"
 addopts = "--doctest-modules -vv --cov=bambu --capture=no --log-cli-level=DEBUG --import-mode=importlib --ignore=tests/smpp tests"
-testpaths = [
-    "tests",
-]
+testpaths = ["tests"]
 log_format = "%(asctime)s [%(levelname)-8s] [%(filename)s:%(lineno)s] %(message)s"
 log_date_format = "%H:%M:%S"
 

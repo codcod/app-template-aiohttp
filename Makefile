@@ -5,29 +5,19 @@
 export PYTHONPATH=src/.
 
 OUT_DIR := build
+PORT=8000
 
 ifneq (,$(wildcard ./.env))
     include .env
     export
 endif
 
-venv:
-	rm -rf ".venv"
-	rye sync
-	@printf "\nDone. You can now activate the virtual environment:"
-	@printf "\n  source .venv/bin/activate\n  virtualenv --upgrade-embed-wheels\n"
+dev:
+	uv run -- gunicorn sgerbwd.app:make_app -w 1 -k aiohttp.GunicornWebWorker --reload
 
-lint:
-	rye lint
-
-test:
-	rye run pytest
-
-create-db:
-	rye run create-db
-
-run-server:
-	rye run server
+run:
+#	./.venv/bin/uvicorn sgerbwd.app:make_app --port $(PORT) --host 0.0.0.0 --log-level warning
+	./.venv/bin/gunicorn sgerbwd.app:make_app -w 2 -k aiohttp.GunicornWebWorker
 
 start-platform:
 	docker compose up -d
@@ -47,3 +37,34 @@ sbom:
 clean-all: stop-platform
 	( bash -c "docker image rm sgerbwd/{webapp,postgres}"; ) || true
 	rm -rf .container-data
+
+.db/create:
+#	rm -f $(DB) || true
+	alembic upgrade ec5
+
+.db/seed:
+	alembic upgrade d26
+
+.lint:
+	uv run ruff check --fix
+	uv run ruff format
+#	uv run -- mypy --strict --scripts-are-modules --enable-incomplete-feature=NewGenericSyntax src
+
+.load:
+	hey -z 5s -c 50 -t 1 http://127.0.0.1:8000/users
+
+.test:
+	export DB_URI=instance/test.sqlite3
+	uv run pytest
+
+.pre-commit:
+	pre-commit run --all-files
+
+.http:
+	http -b GET $(HOST):$(PORT)
+
+.wrk:
+	wrk -t12 -c500 -d15s --latency "http://$(HOST):$(PORT)/api/repo"
+
+.gha:
+	act -W '.github/workflows/ci.yml'

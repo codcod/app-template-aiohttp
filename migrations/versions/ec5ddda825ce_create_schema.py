@@ -22,7 +22,7 @@ def upgrade() -> None:
         sa.Column('user_id', sa.Integer, primary_key=True),
         sa.Column('name', sa.String(64), nullable=False),
         sa.Column('surname', sa.String(64), nullable=False),
-        sqlite_autoincrement=True
+        sqlite_autoincrement=True,
     )
 
 

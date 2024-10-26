@@ -1,4 +1,3 @@
-import os
 import typing as tp
 
 from sqlalchemy import MetaData
@@ -24,8 +23,8 @@ def init_db(config: dict[str, tp.Any]):
     """
     config_db = config['database']
     engine = create_async_engine(
-        # config_db['DB_URL'],
-        os.getenv('DB_URI'),
+        config_db['DB_URL'],
+        # os.getenv('DB_URI'),
         echo=config_db['DB_ECHO'],
     )
     return engine
