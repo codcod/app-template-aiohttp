@@ -8,7 +8,7 @@ venv/
 *.db
 .instance/
 *.log
-.container-data
+.docker-data
 
 # devel
 .coverage
