@@ -2,6 +2,7 @@ import multiprocessing
 import typing as tp
 
 from sqlalchemy import MetaData
+from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 from . import settings
@@ -11,7 +12,7 @@ POOL_SIZE = 1000 // multiprocessing.cpu_count()
 metadata = MetaData()
 
 
-def use_inspector(conn):
+def use_inspector(conn: Connection) -> None:
     """Workaround as SQLAlchemy does not yet offer asyncio version of Inspector.
 
     https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html#using-the-inspector-to-inspect-schema-objects
@@ -19,7 +20,7 @@ def use_inspector(conn):
     metadata.reflect(bind=conn)
 
 
-def init_db(config: dict[str, tp.Any]):
+def init_db(config: dict[str, tp.Any]) -> AsyncEngine:
     """
     Initialize database based on configuration.
     Passes additional arguments to the underlying `sqlite3` driver.

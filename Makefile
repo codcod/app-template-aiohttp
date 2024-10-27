@@ -47,10 +47,10 @@ clean-all: stop-platform
 .db/seed:
 	alembic upgrade d26
 
-.lint:
-	uv run ruff check --fix
+.fmt:
 	uv run ruff format
-#	uv run -- mypy --strict --scripts-are-modules --enable-incomplete-feature=NewGenericSyntax src
+	uv run ruff check --fix
+	uv run -- mypy --strict --scripts-are-modules --enable-incomplete-feature=NewGenericSyntax src
 
 .pre-commit:
 	pre-commit run --all-files
