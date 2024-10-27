@@ -38,3 +38,17 @@ async def fetch_users(req: Request) -> Response:
         records = await queries.fetch_users(conn)
 
     return web.json_response({'rows': jsonify_rows(records)}, dumps=dumps)
+
+
+@routes.post('/users')
+async def save_user(req: Request) -> Response:
+    engine = req.app['engine']
+
+    data = await req.json()
+    name = data['name']
+    surname = data['surname']
+
+    async with engine.begin() as conn:
+        await queries.save_user(conn, name=name, surname=surname)
+
+    return web.json_response({'status': 'ok'}, dumps=dumps)

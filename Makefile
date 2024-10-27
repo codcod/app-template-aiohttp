@@ -5,6 +5,8 @@
 export PYTHONPATH=src/.
 
 OUT_DIR := build
+
+HOST=127.0.0.1
 PORT=8000
 
 ifneq (,$(wildcard ./.env))
@@ -17,7 +19,7 @@ dev:
 
 run:
 #	./.venv/bin/uvicorn sgerbwd.app:make_app --port $(PORT) --host 0.0.0.0 --log-level warning
-	./.venv/bin/gunicorn sgerbwd.app:make_app -w 2 -k aiohttp.GunicornWebWorker
+	./.venv/bin/gunicorn sgerbwd.app:make_app --port $(PORT) --host $(HOST) -w 2 -k aiohttp.GunicornWebWorker
 
 start-platform:
 	docker compose up -d
@@ -50,21 +52,28 @@ clean-all: stop-platform
 	uv run ruff format
 #	uv run -- mypy --strict --scripts-are-modules --enable-incomplete-feature=NewGenericSyntax src
 
-.load:
-	hey -z 5s -c 50 -t 1 http://127.0.0.1:8000/users
-
-.test:
-	export DB_URI=instance/test.sqlite3
-	uv run pytest
-
 .pre-commit:
 	pre-commit run --all-files
 
 .http:
 	http -b GET $(HOST):$(PORT)
 
+.test:
+	export DB_URI=instance/test.sqlite3
+	uv run pytest
+
 .wrk:
-	wrk -t12 -c500 -d15s --latency "http://$(HOST):$(PORT)/api/repo"
+	wrk -t12 -c500 -d15s --latency http://$(HOST):$(PORT)/users
+
+.hey/get:
+	hey -z 5s -c 50 -t 1 http://$(HOST):$(PORT)/users
+
+.hey:
+	hey -z 5s -c 50 -t 1 \
+       -m POST \
+       -H "Content-Type: application/json" \
+       -d '{"name":"John","surname":"Hey"}' \
+       http://$(HOST):$(PORT)/users
 
 .gha:
 	act -W '.github/workflows/ci.yml'
