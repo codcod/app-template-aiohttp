@@ -19,7 +19,7 @@ dev:
 
 run:
 #	./.venv/bin/uvicorn sgerbwd.app:make_app --port $(PORT) --host 0.0.0.0 --log-level warning
-	./.venv/bin/gunicorn sgerbwd.app:make_app --port $(PORT) --host $(HOST) -w 2 -k aiohttp.GunicornWebWorker
+	./.venv/bin/gunicorn sgerbwd.app:make_app --bind $(HOST):$(PORT) -w 4 -k aiohttp.GunicornWebWorker
 
 start-platform:
 	docker compose up -d
@@ -63,7 +63,7 @@ clean-all: stop-platform
 	uv run pytest
 
 .wrk:
-	wrk -t12 -c500 -d15s --latency http://$(HOST):$(PORT)/users
+	wrk -t12 -c500 -d15s --latency http://$(HOST):$(PORT)/users/1
 
 .hey/get:
 	hey -z 5s -c 50 -t 1 http://$(HOST):$(PORT)/users

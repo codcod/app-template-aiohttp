@@ -1,9 +1,12 @@
+import multiprocessing
 import typing as tp
 
 from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 from . import settings
+
+POOL_SIZE = 1000 // multiprocessing.cpu_count()
 
 metadata = MetaData()
 
@@ -26,6 +29,7 @@ def init_db(config: dict[str, tp.Any]):
         config_db['DB_URL'],
         # os.getenv('DB_URI'),
         echo=config_db['DB_ECHO'],
+        pool_size=POOL_SIZE,
     )
     return engine
 
