@@ -72,6 +72,31 @@ quote-style = "single"
 [tool.pydocstyle]
 ignore = ["D105", "D107", "D203", "D213"]
 
+[tool.interrogate]
+ignore-init-method = false
+ignore-init-module = false
+ignore-magic = false
+ignore-semiprivate = false
+ignore-private = false
+ignore-property-decorators = false
+ignore-module = false
+ignore-nested-functions = false
+ignore-nested-classes = false
+ignore-setters = false
+ignore-overloaded-functions = false
+fail-under = 30
+exclude = ["setup.py", "docs", "build", "tests/"]
+ignore-regex = ["^get$", "^mock_.*", ".*BaseClass.*"]
+ext = []
+# possible values: sphinx (default), google
+style = "sphinx"
+# possible values: 0 (minimal output), 1 (-v), 2 (-vv)
+verbose = 1
+quiet = false
+whitelist-regex = []
+color = true
+omit-covered-files = false
+
 [tool.pytest.ini_options]
 # https://docs.pytest.org/en/latest/reference/customize.html
 minversion = "6.0"
